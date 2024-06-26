@@ -1,4 +1,4 @@
-package me.ashutoshkk.recipeapp.ui.theme
+package me.ashutoshkk.recipeapp.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

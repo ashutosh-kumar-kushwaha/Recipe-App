@@ -1,4 +1,4 @@
-package me.ashutoshkk.recipeapp
+package me.ashutoshkk.recipeapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,9 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.internal.composableLambda
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import me.ashutoshkk.recipeapp.ui.theme.RecipeAppTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import me.ashutoshkk.recipeapp.presentation.ui.home.HomeScreen
+import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +24,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RecipeAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                App()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RecipeAppTheme {
-        Greeting("Android")
+fun App() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = Screen.Home.route){
+        composable(route = Screen.Home.route){
+            HomeScreen()
+        }
     }
 }

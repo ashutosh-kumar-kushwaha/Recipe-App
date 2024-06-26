@@ -1,4 +1,4 @@
-package me.ashutoshkk.recipeapp.ui.theme
+package me.ashutoshkk.recipeapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
