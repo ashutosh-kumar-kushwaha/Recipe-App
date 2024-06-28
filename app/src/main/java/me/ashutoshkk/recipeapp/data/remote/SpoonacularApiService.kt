@@ -14,7 +14,7 @@ interface SpoonacularApiService {
         @Query("apiKey") apiKey: String = API_KEY,
     ): SearchRecipeDto
 
-    @GET("recipes/random")
+    @GET("random")
     suspend fun getRandomRecipe(
         @Query("number") number: Int = 10,
         @Query("apiKey") apiKey: String = API_KEY,

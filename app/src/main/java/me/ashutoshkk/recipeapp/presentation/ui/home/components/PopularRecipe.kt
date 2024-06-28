@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +38,7 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 @ExperimentalMaterial3Api
 @Composable
 fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
-    val sizeImage by remember { mutableStateOf(IntSize.Zero) }
+    var sizeImage by remember { mutableStateOf(IntSize.Zero) }
     val gradient = Brush.verticalGradient(
         colors = listOf(Color.Transparent, Color.Black),
         startY = sizeImage.height.toFloat() / 3,
@@ -61,34 +62,32 @@ fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
-//                    .onGloballyPositioned { coordinates ->
-//                        sizeImage = coordinates.size
-//                    },
-                ,contentScale = ContentScale.FillBounds, alignment = Alignment.Center
+                    .onGloballyPositioned { coordinates ->
+                        sizeImage = coordinates.size
+                    },
+                contentScale = ContentScale.FillBounds, alignment = Alignment.Center
             )
             Box(modifier = Modifier.fillMaxSize().background(gradient))
             Column (
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = RecipeTheme.paddings.horizontalSmall),
             ){
                 Text(
                     text = recipe.title,
-                    color = RecipeTheme.colorScheme.text,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    color = RecipeTheme.colorScheme.text2,
+                    style = RecipeTheme.typography.titleSmall,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.padding(start = 16.dp, bottom = 30.dp)
                 )
                 Text(
                     text = "Ready in ${recipe.readyInMinutes} min",
                     color = RecipeTheme.colorScheme.subText,
-                    fontSize = 12.sp,
+                    style = RecipeTheme.typography.labelLarge,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.padding(start = 16.dp, bottom = 10.dp)
                 )
             }
-
         }
     }
 }

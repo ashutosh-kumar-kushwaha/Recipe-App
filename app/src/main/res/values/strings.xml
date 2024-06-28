@@ -2,4 +2,8 @@
     <string name="app_name">Recipe App</string>
     <string name="please_signing_to_continue">Please signing to continue</string>
     <string name="hey_user">👋 Hey User</string>
+    <string name="discover_tasty_and_healthy_receipt">Discover tasty and healthy receipt</string>
+    <string name="popular_recipes">Popular Recipes</string>
+    <string name="search_any_recipe">Search Any Recipe</string>
+    <string name="all_recipes">All Recipes</string>
 </resources>

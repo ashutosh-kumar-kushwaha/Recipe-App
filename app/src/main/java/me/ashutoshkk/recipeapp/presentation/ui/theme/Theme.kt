@@ -2,6 +2,7 @@ package me.ashutoshkk.recipeapp.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -18,7 +19,9 @@ data class ColorScheme(
     val onBackground: Color,
     val text: Color,
     val text2: Color,
-    val subText: Color
+    val subText: Color,
+    val textFieldBackground: Color,
+    val heading: Color
 )
 
 private val colorScheme = ColorScheme(
@@ -26,7 +29,9 @@ private val colorScheme = ColorScheme(
     onBackground = Color.Black,
     text = Color.Black,
     text2 = Color.White,
-    subText = Color.Gray
+    subText = Color.Gray,
+    textFieldBackground = Color(0xFFF2F7FD),
+    heading = Color(0xFF171B21)
 )
 
 private val colors = lightColorScheme(
@@ -40,8 +45,11 @@ data class Paddings(
     val all: Dp = 20.dp,
     val around: Dp = 8.dp,
     val horizontal: Dp = 16.dp,
+    val horizontalSmall: Dp = 12.dp,
     val vertical: Dp = 8.dp,
     val verticalInBetween: Dp = 16.dp,
+    val verticalInBetweenSmall: Dp = 12.dp,
+    val verticalInBetweenLarge: Dp = 24.dp,
 )
 
 private val LocalPaddings = staticCompositionLocalOf { Paddings() }
@@ -50,7 +58,6 @@ private val LocalPaddings = staticCompositionLocalOf { Paddings() }
 @Composable
 fun RecipeAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -77,4 +84,9 @@ object RecipeTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalPaddings.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = MaterialTheme.typography
 }

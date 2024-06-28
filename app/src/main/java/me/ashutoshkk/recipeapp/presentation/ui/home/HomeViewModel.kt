@@ -1,5 +1,6 @@
 package me.ashutoshkk.recipeapp.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,9 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import me.ashutoshkk.recipeapp.common.Resource
-import me.ashutoshkk.recipeapp.common.update
-import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 import me.ashutoshkk.recipeapp.domain.useCase.RecipeUseCase
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
         getRandomRecipe()
     }
 
-    fun getRandomRecipe() {
+    private fun getRandomRecipe() {
         useCase.getRandomRecipe().onEach { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -39,11 +39,22 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(isRandomRecipeLoading = false, randomRecipe = response.data!!) }
+                    Log.d("Ashu", response.data.toString())
+                    _uiState.update {
+                        it.copy(
+                            isRandomRecipeLoading = false,
+                            randomRecipe = response.data!!
+                        )
+                    }
                 }
 
                 is Resource.Error -> {
-                    _uiState.update { it.copy(isRandomRecipeLoading = false, error = response.message) }
+                    _uiState.update {
+                        it.copy(
+                            isRandomRecipeLoading = false,
+                            error = response.message
+                        )
+                    }
                 }
             }
         }.launchIn(viewModelScope)
@@ -57,14 +68,28 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(isAllRecipeLoading = false, allRecipe = response.data!!) }
+                    _uiState.update {
+                        it.copy(
+                            isAllRecipeLoading = false,
+                            allRecipe = response.data!!
+                        )
+                    }
                 }
 
                 is Resource.Error -> {
-                    _uiState.update { it.copy(isAllRecipeLoading = false, error = response.message) }
+                    _uiState.update {
+                        it.copy(
+                            isAllRecipeLoading = false,
+                            error = response.message
+                        )
+                    }
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun resetErrorMessage(){
+        _uiState.update { it.copy(error = null) }
     }
 
 }
