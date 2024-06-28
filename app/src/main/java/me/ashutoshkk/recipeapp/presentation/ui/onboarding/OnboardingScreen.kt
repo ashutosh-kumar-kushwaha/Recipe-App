@@ -44,7 +44,7 @@ fun OnboardingScreen(navigateTo: (String) -> Unit) {
         )
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(RecipeTheme.paddings.all)
+                .padding(RecipeTheme.paddings.allLarge)
         ) {
             Text(
                 text = buildAnnotatedString {

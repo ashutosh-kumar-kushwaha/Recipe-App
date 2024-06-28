@@ -31,6 +31,9 @@ fun App() {
     val navigateTo = { route: String ->
         navController.navigate(route)
     }
+    val navigateUp = {
+        navController.navigateUp()
+    }
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
         composable(route = Screen.Onboarding.route) {
             OnboardingScreen(navigateTo)
@@ -39,7 +42,7 @@ fun App() {
             HomeScreen(navigateTo)
         }
         composable(route = Screen.Search.route){
-            SearchScreen()
+            SearchScreen(navigateTo, navigateUp)
         }
     }
 }

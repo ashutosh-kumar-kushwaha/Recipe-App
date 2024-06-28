@@ -1,10 +1,11 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
@@ -46,19 +48,20 @@ fun SearchTextField(
             focusedLabelColor = RecipeTheme.colorScheme.text2,
             unfocusedLabelColor = RecipeTheme.colorScheme.text2,
             disabledLabelColor = RecipeTheme.colorScheme.subText,
-            focusedBorderColor = Color.Transparent,
+            focusedBorderColor = RecipeTheme.colorScheme.focusedBorderColor,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
             errorBorderColor = Color.Transparent,
+            cursorColor = RecipeTheme.colorScheme.cursorColor
         ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = RecipeTheme.paddings.horizontal)
             .clickable {
-                Log.d("Ashu", "Click")
                 onClick()
             },
         readOnly = readOnly,
-        enabled = !readOnly
+        enabled = !readOnly,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
     )
 }

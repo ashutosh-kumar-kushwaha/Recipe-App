@@ -23,7 +23,9 @@ data class ColorScheme(
     val textFieldBackground: Color,
     val heading: Color,
     val borderColor: Color,
-    val iconColor: Color
+    val focusedBorderColor: Color,
+    val iconColor: Color,
+    val cursorColor: Color,
 )
 
 private val colorScheme = ColorScheme(
@@ -35,7 +37,9 @@ private val colorScheme = ColorScheme(
     textFieldBackground = Color(0xFFF2F7FD),
     heading = Color(0xFF171B21),
     borderColor = Color(0xFFE7F0F8),
-    iconColor = Color.Black
+    focusedBorderColor = Color(0xFFE1E8EF),
+    iconColor = Color.Black,
+    cursorColor = Color.Black
 )
 
 private val colors = lightColorScheme(
@@ -46,7 +50,9 @@ private val LocalColorScheme = compositionLocalOf { colorScheme }
 
 @Immutable
 data class Paddings(
-    val all: Dp = 20.dp,
+    val allLarge: Dp = 20.dp,
+    val allMedium: Dp = 16.dp,
+    val aroundSmall: Dp = 8.dp,
     val around: Dp = 8.dp,
     val aroundLarge: Dp = 24.dp,
     val horizontal: Dp = 16.dp,
