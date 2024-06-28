@@ -122,15 +122,19 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalInBetweenLarge))
                 Text(
                     text = stringResource(id = R.string.all_recipes),
                     style = RecipeTheme.typography.titleMedium,
                     color = RecipeTheme.colorScheme.heading,
                     modifier = Modifier.padding(horizontal = RecipeTheme.paddings.horizontal)
                 )
+                Spacer(modifier = Modifier.height(RecipeTheme.paddings.vertical))
             }
-            items(uiState.allRecipe) {
+            items(
+                items = uiState.allRecipe,
+                key = { it.id }
+            ) {
                 RecipeCard(it){
 
                 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,11 +68,13 @@ fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
                     },
                 contentScale = ContentScale.FillBounds, alignment = Alignment.Center
             )
-            Box(modifier = Modifier.fillMaxSize().background(gradient))
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(gradient))
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = RecipeTheme.paddings.horizontalSmall),
+                    .padding(horizontal = RecipeTheme.paddings.horizontalSmall, vertical = RecipeTheme.paddings.vertical),
             ){
                 Text(
                     text = recipe.title,
@@ -80,9 +83,10 @@ fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )
+                Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalSmall))
                 Text(
                     text = "Ready in ${recipe.readyInMinutes} min",
-                    color = RecipeTheme.colorScheme.subText,
+                    color = RecipeTheme.colorScheme.text2,
                     style = RecipeTheme.typography.labelLarge,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,

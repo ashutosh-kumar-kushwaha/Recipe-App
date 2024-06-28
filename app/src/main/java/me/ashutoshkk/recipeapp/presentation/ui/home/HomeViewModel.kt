@@ -29,6 +29,7 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
 
     init {
         getRandomRecipe()
+        getAllRecipe()
     }
 
     private fun getRandomRecipe() {
@@ -39,7 +40,6 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
                 }
 
                 is Resource.Success -> {
-                    Log.d("Ashu", response.data.toString())
                     _uiState.update {
                         it.copy(
                             isRandomRecipeLoading = false,
