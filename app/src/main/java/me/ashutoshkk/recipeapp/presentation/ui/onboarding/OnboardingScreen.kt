@@ -27,10 +27,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.ashutoshkk.recipeapp.R
+import me.ashutoshkk.recipeapp.presentation.Screen
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(navigateTo: (String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
@@ -73,7 +74,7 @@ fun OnboardingScreen() {
             Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalInBetween))
             Button(
                 onClick = {
-
+                    navigateTo(Screen.Home.route)
                 },
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier

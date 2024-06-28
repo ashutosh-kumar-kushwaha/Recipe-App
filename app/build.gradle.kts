@@ -68,6 +68,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.ui.text.google.fonts)
 
@@ -75,8 +76,12 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp (libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 }
