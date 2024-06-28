@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -36,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.PopularRecipe
+import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.RecipeCard
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
@@ -109,16 +111,21 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                     modifier = Modifier.padding(horizontal = RecipeTheme.paddings.horizontal)
                 )
                 Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalInBetween))
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontal),
-                    contentPadding = PaddingValues(horizontal = RecipeTheme.paddings.horizontal)
-                ) {
-                    items(
-                        items = uiState.randomRecipe,
-                        key = { it.id }
+                if(uiState.isRandomRecipeLoading){
+                    ProgressBar()
+                }
+                else{
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontal),
+                        contentPadding = PaddingValues(horizontal = RecipeTheme.paddings.horizontal)
                     ) {
-                        PopularRecipe(it) {
+                        items(
+                            items = uiState.randomRecipe,
+                            key = { it.id }
+                        ) {
+                            PopularRecipe(it) {
 //                            navigateTo(it.recipeId)
+                            }
                         }
                     }
                 }
@@ -131,12 +138,19 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(RecipeTheme.paddings.vertical))
             }
-            items(
-                items = uiState.allRecipe,
-                key = { it.id }
-            ) {
-                RecipeCard(it){
+            if(uiState.isAllRecipeLoading){
+                item{
+                    ProgressBar()
+                }
+            }
+            else{
+                items(
+                    items = uiState.allRecipe,
+                    key = { it.id }
+                ) {
+                    RecipeCard(it){
 
+                    }
                 }
             }
         }
@@ -150,6 +164,4 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
             }
         }
     }
-
-
 }

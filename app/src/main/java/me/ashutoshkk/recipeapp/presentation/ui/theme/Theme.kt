@@ -46,6 +46,7 @@ private val LocalColorScheme = compositionLocalOf { colorScheme }
 data class Paddings(
     val all: Dp = 20.dp,
     val around: Dp = 8.dp,
+    val aroundLarge: Dp = 24.dp,
     val horizontal: Dp = 16.dp,
     val horizontalSmall: Dp = 12.dp,
     val vertical: Dp = 8.dp,
