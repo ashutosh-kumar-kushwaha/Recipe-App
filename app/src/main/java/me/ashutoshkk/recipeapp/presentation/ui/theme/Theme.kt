@@ -17,14 +17,16 @@ data class ColorScheme(
     val background: Color,
     val onBackground: Color,
     val text: Color,
-    val text2: Color
+    val text2: Color,
+    val subText: Color
 )
 
 private val colorScheme = ColorScheme(
     background = Color.White,
     onBackground = Color.Black,
     text = Color.Black,
-    text2 = Color.White
+    text2 = Color.White,
+    subText = Color.Gray
 )
 
 private val colors = lightColorScheme(

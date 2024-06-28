@@ -27,6 +27,10 @@ class HomeViewModel @Inject constructor(private val useCase: RecipeUseCase) : Vi
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
+    init {
+        getRandomRecipe()
+    }
+
     fun getRandomRecipe() {
         useCase.getRandomRecipe().onEach { response ->
             when (response) {

@@ -1,5 +1,6 @@
 package me.ashutoshkk.recipeapp.data.remote.dto
 
+import me.ashutoshkk.recipeapp.domain.model.RandomRecipe
 import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 
 data class RecipeDetailsDto(
@@ -81,3 +82,5 @@ fun RecipeDetailsDto.toRecipeDetails() = RecipeDetails(
     veryPopular = this.veryPopular,
     weightWatcherSmartPoints = this.weightWatcherSmartPoints
 )
+
+fun RecipeDetailsDto.toRandomRecipe() = RandomRecipe(id, image, title, readyInMinutes)
