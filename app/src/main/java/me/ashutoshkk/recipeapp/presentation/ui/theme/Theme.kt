@@ -22,7 +22,8 @@ data class ColorScheme(
     val subText: Color,
     val textFieldBackground: Color,
     val heading: Color,
-    val borderColor: Color
+    val borderColor: Color,
+    val iconColor: Color
 )
 
 private val colorScheme = ColorScheme(
@@ -33,7 +34,8 @@ private val colorScheme = ColorScheme(
     subText = Color.Gray,
     textFieldBackground = Color(0xFFF2F7FD),
     heading = Color(0xFF171B21),
-    borderColor = Color(0xFFE7F0F8)
+    borderColor = Color(0xFFE7F0F8),
+    iconColor = Color.Black
 )
 
 private val colors = lightColorScheme(
@@ -51,6 +53,7 @@ data class Paddings(
     val horizontalSmall: Dp = 12.dp,
     val vertical: Dp = 8.dp,
     val verticalSmall: Dp = 4.dp,
+    val verticalLarge: Dp = 16.dp,
     val verticalInBetween: Dp = 16.dp,
     val verticalInBetweenSmall: Dp = 12.dp,
     val verticalInBetweenLarge: Dp = 24.dp,

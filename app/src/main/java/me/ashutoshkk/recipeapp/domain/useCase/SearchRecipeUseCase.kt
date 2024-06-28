@@ -11,12 +11,12 @@ import me.ashutoshkk.recipeapp.domain.repository.RecipeRepository
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class RandomRecipeUseCase @Inject constructor(private val repository: RecipeRepository) {
+class SearchRecipeUseCase @Inject constructor(private val repository: RecipeRepository) {
 
-    operator fun invoke(): Flow<Resource<List<RandomRecipe>>> = flow {
+    operator fun invoke(query: String = ""): Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loading())
         try {
-            emit(Resource.Success(repository.getRandomRecipe().recipes.map { it.toRandomRecipe() }))
+            emit(Resource.Success(repository.searchRecipe(query).results.map { it.toRecipe() }))
         } catch (e: HttpException) {
             emit(
                 Resource.Error(
