@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.ashutoshkk.recipeapp.presentation.ui.home.HomeScreen
 import me.ashutoshkk.recipeapp.presentation.ui.onboarding.OnboardingScreen
+import me.ashutoshkk.recipeapp.presentation.ui.recipe.RecipeScreen
 import me.ashutoshkk.recipeapp.presentation.ui.search.SearchScreen
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeAppTheme
 
@@ -43,6 +44,9 @@ fun App() {
         }
         composable(route = Screen.Search.route){
             SearchScreen(navigateTo, navigateUp)
+        }
+        composable(route = Screen.Recipe.route){
+            RecipeScreen()
         }
     }
 }

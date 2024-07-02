@@ -103,7 +103,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                             key = { it.id }
                         ) {
                             PopularRecipe(it) {
-//                            navigateTo(it.recipeId)
+                                navigateTo(Screen.Recipe.createRoute(it.id))
                             }
                         }
                     }
@@ -127,7 +127,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                     key = { it.id }
                 ) {
                     RecipeCard(it) {
-
+                        navigateTo(Screen.Recipe.createRoute(it.id))
                     }
                 }
             }

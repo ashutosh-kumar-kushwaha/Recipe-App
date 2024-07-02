@@ -26,12 +26,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import me.ashutoshkk.recipeapp.domain.model.RandomRecipe
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
@@ -40,11 +38,6 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 @Composable
 fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
-    val gradient = Brush.verticalGradient(
-        colors = listOf(Color.Transparent, Color.Black),
-        startY = sizeImage.height.toFloat() / 3,
-        endY = sizeImage.height.toFloat()
-    )
     Card(
         onClick = onClick,
         modifier = Modifier
@@ -68,14 +61,25 @@ fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
                     },
                 contentScale = ContentScale.FillBounds, alignment = Alignment.Center
             )
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(gradient))
-            Column (
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Black),
+                            startY = sizeImage.height.toFloat() / 3,
+                            endY = sizeImage.height.toFloat()
+                        )
+                    )
+            )
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = RecipeTheme.paddings.horizontalSmall, vertical = RecipeTheme.paddings.vertical),
-            ){
+                    .padding(
+                        horizontal = RecipeTheme.paddings.horizontalSmall,
+                        vertical = RecipeTheme.paddings.vertical
+                    ),
+            ) {
                 Text(
                     text = recipe.title,
                     color = RecipeTheme.colorScheme.text2,

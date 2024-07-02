@@ -19,7 +19,7 @@ class RecipeViewModel @Inject constructor(
     private val getRecipeDetails: RecipeUseCase
 ) : ViewModel() {
 
-    private val recipeId: Int = savedStateHandle["recipeId"]!!
+    private val recipeId: Int = savedStateHandle.get<String>("recipeId")!!.toInt()
 
     private val _uiState = MutableStateFlow(RecipeUiState())
     val uiState = _uiState.asStateFlow()
