@@ -59,7 +59,8 @@ fun PopularRecipe(recipe: RandomRecipe, onClick: () -> Unit) {
                     .onGloballyPositioned { coordinates ->
                         sizeImage = coordinates.size
                     },
-                contentScale = ContentScale.FillBounds, alignment = Alignment.Center
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center
             )
             Box(
                 modifier = Modifier

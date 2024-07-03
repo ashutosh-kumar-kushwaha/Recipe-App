@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 data class ColorScheme(
     val primary: Color,
     val background: Color,
+    val background2: Color,
     val onBackground: Color,
     val text: Color,
     val text2: Color,
@@ -33,6 +34,7 @@ data class ColorScheme(
 private val colorScheme = ColorScheme(
     primary = primary,
     background = Color.White,
+    background2 = Color(0xFFF2F7FD),
     onBackground = Color.Black,
     text = Color.Black,
     text2 = Color.White,

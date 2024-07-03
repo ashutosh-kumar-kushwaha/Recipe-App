@@ -13,4 +13,8 @@
     <string name="instructions">Instructions</string>
     <string name="equipments">Equipments</string>
     <string name="quick_summary">Quick Summary</string>
+    <string name="nutrition">Nutrition</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur. Sagittis facilisis aliquet aenean lorem ullamcorper et. Risus lectus id sed fermentum in. At porta sed ut lorem volutpat elementum mi sollicitudin. Laoreet tempor nullam velit dui amet mauris sed ac sem.</string>
+    <string name="bad_for_health_nutrition">Bad for health nutrition</string>
+    <string name="good_for_health_nutrition">Good for health nutrition</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.common.Constants.IMAGE_URL
+import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.ExpandableItem
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.Ingredient
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.RecipeImage
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.RecipeInfo
@@ -153,7 +155,29 @@ fun RecipeScreen() {
                         horizontal = RecipeTheme.paddings.horizontal
                     )
                 )
-
+                val info = remember {
+                    listOf(
+                        R.string.nutrition to R.string.lorem_ipsum,
+                        R.string.bad_for_health_nutrition to R.string.lorem_ipsum,
+                        R.string.good_for_health_nutrition to R.string.lorem_ipsum,
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = RecipeTheme.paddings.verticalLarge),
+                    verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.verticalSmall)
+                ) {
+                    info.forEach {
+                        ExpandableItem(
+                            title = stringResource(id = it.first),
+                            description = stringResource(id = it.second),
+                            modifier = Modifier.padding(
+                                horizontal = RecipeTheme.paddings.horizontal,
+                            )
+                        )
+                    }
+                }
             }
         }
     }
