@@ -69,7 +69,8 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalSmall))
             Text(
                 text = "Ready in ${Random.nextInt(20, 59)} min",
-                style = RecipeTheme.typography.labelLarge
+                style = RecipeTheme.typography.labelLarge,
+                color = RecipeTheme.colorScheme.subText
             )
         }
     }
