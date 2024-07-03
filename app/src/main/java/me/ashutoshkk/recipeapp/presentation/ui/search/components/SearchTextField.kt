@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -48,11 +47,11 @@ fun SearchTextField(
             focusedLabelColor = RecipeTheme.colorScheme.text2,
             unfocusedLabelColor = RecipeTheme.colorScheme.text2,
             disabledLabelColor = RecipeTheme.colorScheme.subText,
-            focusedBorderColor = RecipeTheme.colorScheme.focusedBorderColor,
+            focusedBorderColor = RecipeTheme.colorScheme.focusedBorder,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
             errorBorderColor = Color.Transparent,
-            cursorColor = RecipeTheme.colorScheme.cursorColor
+            cursorColor = RecipeTheme.colorScheme.cursor
         ),
         modifier = Modifier
             .fillMaxWidth()

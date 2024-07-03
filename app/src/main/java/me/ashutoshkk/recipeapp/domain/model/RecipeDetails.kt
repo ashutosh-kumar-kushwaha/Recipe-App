@@ -12,7 +12,7 @@ data class RecipeDetails(
     val dairyFree: Boolean,
     val diets: List<String>,
     val dishTypes: List<String>,
-    val extendedIngredients: List<ExtendedIngredient>,
+    val ingredients: List<Ingredient>,
     val gaps: String,
     val glutenFree: Boolean,
     val healthScore: Int,

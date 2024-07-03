@@ -15,31 +15,35 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class ColorScheme(
+    val primary: Color,
     val background: Color,
     val onBackground: Color,
     val text: Color,
     val text2: Color,
+    val text3: Color,
     val subText: Color,
     val textFieldBackground: Color,
     val heading: Color,
-    val borderColor: Color,
-    val focusedBorderColor: Color,
-    val iconColor: Color,
-    val cursorColor: Color,
+    val border: Color,
+    val focusedBorder: Color,
+    val icon: Color,
+    val cursor: Color,
 )
 
 private val colorScheme = ColorScheme(
+    primary = primary,
     background = Color.White,
     onBackground = Color.Black,
     text = Color.Black,
     text2 = Color.White,
+    text3 = Color(0xFF606F89),
     subText = Color.Gray,
     textFieldBackground = Color(0xFFF2F7FD),
     heading = Color(0xFF171B21),
-    borderColor = Color(0xFFE7F0F8),
-    focusedBorderColor = Color(0xFFE1E8EF),
-    iconColor = Color.Black,
-    cursorColor = Color.Black
+    border = Color(0xFFE7F0F8),
+    focusedBorder = Color(0xFFE1E8EF),
+    icon = Color.Black,
+    cursor = Color.Black
 )
 
 private val colors = lightColorScheme(

@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -73,9 +72,9 @@ fun RecipeImage(
                 .align(Alignment.TopEnd)
                 .size(40.dp)
                 .background(color = RecipeTheme.colorScheme.background, shape = CircleShape)
-                .border(1.dp, RecipeTheme.colorScheme.focusedBorderColor, CircleShape),
+                .border(1.dp, RecipeTheme.colorScheme.focusedBorder, CircleShape),
             colors = IconButtonDefaults.outlinedIconButtonColors(
-                contentColor = Color(0xFFE54900)
+                contentColor = RecipeTheme.colorScheme.primary
             )
         ) {
             Icon(

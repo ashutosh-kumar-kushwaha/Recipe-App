@@ -36,7 +36,7 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
             .clip(RoundedCornerShape(12.dp))
             .border(
                 width = 1.dp,
-                color = RecipeTheme.colorScheme.borderColor,
+                color = RecipeTheme.colorScheme.border,
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {

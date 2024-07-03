@@ -6,4 +6,8 @@
     <string name="popular_recipes">Popular Recipes</string>
     <string name="search_any_recipe">Search Any Recipe</string>
     <string name="all_recipes">All Recipes</string>
+    <string name="ready_in">Ready in</string>
+    <string name="servings">Servings</string>
+    <string name="price_serving">Price/serving</string>
+    <string name="ingredients">Ingredients</string>
 </resources>

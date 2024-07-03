@@ -77,7 +77,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                             painter = painterResource(R.drawable.search_icon),
                             contentDescription = null,
                             modifier = Modifier.size(28.dp),
-                            tint = RecipeTheme.colorScheme.iconColor
+                            tint = RecipeTheme.colorScheme.icon
                         )
                     }
                 ) {
