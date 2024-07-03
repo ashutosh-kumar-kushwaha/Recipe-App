@@ -27,8 +27,11 @@ fun RecipeBottomSheetDragHandle(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(RecipeTheme.paddings.allMedium),
-        horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontal),
+            .padding(
+                horizontal = RecipeTheme.paddings.horizontal,
+                vertical = RecipeTheme.paddings.vertical
+            ),
+        horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontalSmall),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
