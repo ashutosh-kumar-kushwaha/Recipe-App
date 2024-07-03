@@ -18,12 +18,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
+import me.ashutoshkk.recipeapp.presentation.ui.search.components.RecipeBottomSheet
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchRecipe
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchTextField
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
@@ -37,6 +39,8 @@ fun SearchScreen(
     val searchText by viewModel.searchText.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
+    val showBottomSheet by viewModel.showBottomSheet.collectAsStateWithLifecycle()
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -80,7 +84,7 @@ fun SearchScreen(
                 ) {
                     items(uiState.recipes) {
                         SearchRecipe(it) {
-
+                            viewModel.fetchRecipe(it)
                         }
                     }
                 }
@@ -92,6 +96,15 @@ fun SearchScreen(
                         message = uiState.error!!
                     )
                     viewModel.resetErrorMessage()
+                }
+            }
+            if (showBottomSheet) {
+                recipeUiState.recipe?.let { recipe ->
+                    RecipeBottomSheet(
+                        recipe = recipe
+                    ) {
+                        viewModel.hideBottomSheet()
+                    }
                 }
             }
         }

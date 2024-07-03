@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import me.ashutoshkk.recipeapp.domain.model.Recipe
+import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeBottomSheet(
-    recipe: Recipe,
+    recipe: RecipeDetails,
     onDismiss: () -> Unit,
 ) {
     val step by remember {

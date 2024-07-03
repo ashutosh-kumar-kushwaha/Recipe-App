@@ -1,6 +1,5 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,12 +12,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import me.ashutoshkk.recipeapp.common.Resource
+import me.ashutoshkk.recipeapp.domain.useCase.RecipeUseCase
 import me.ashutoshkk.recipeapp.domain.useCase.SearchRecipeUseCase
+import me.ashutoshkk.recipeapp.presentation.ui.search.components.RecipeUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getSearchRecipe: SearchRecipeUseCase
+    private val getSearchRecipe: SearchRecipeUseCase,
+    private val getRecipe: RecipeUseCase
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -30,6 +32,12 @@ class SearchViewModel @Inject constructor(
     fun onSearchTextChange(text: String) {
         _searchText.value = text
     }
+
+    private val _recipeUiState = MutableStateFlow(RecipeUiState())
+    val recipeUiState = _recipeUiState.asStateFlow()
+
+    private val _showBottomSheet = MutableStateFlow(false)
+    val showBottomSheet = _showBottomSheet.asStateFlow()
 
     init {
         handleSearchQuery()
@@ -71,11 +79,34 @@ class SearchViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
+    fun fetchRecipe(recipeId: Int) {
+        getRecipe(recipeId).onEach { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                }
+
+                is Resource.Success -> {
+                    _recipeUiState.value = RecipeUiState(response.data!!)
+                    _showBottomSheet.value = true
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { it.copy(error = response.message) }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun resetErrorMessage() {
         _uiState.update { it.copy(error = null) }
     }
 
     fun clearSearchText() {
         _searchText.value = ""
+    }
+
+    fun hideBottomSheet() {
+        _showBottomSheet.value = false
     }
 }
