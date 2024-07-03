@@ -20,13 +20,16 @@ import me.ashutoshkk.recipeapp.domain.model.Ingredient
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @Composable
-fun Ingredient(ingredient: Ingredient) {
+fun Ingredient(
+    name: String,
+    imageUrl: String
+) {
     Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.verticalInBetweenSmall),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val painter = rememberAsyncImagePainter(model = IMAGE_URL.plus(ingredient.image))
+        val painter = rememberAsyncImagePainter(model = imageUrl)
         Image(
             painter = painter,
             contentDescription = null,
@@ -41,7 +44,7 @@ fun Ingredient(ingredient: Ingredient) {
             contentScale = ContentScale.Crop
         )
         Text(
-            text = ingredient.name,
+            text = name,
             style = RecipeTheme.typography.bodySmall,
             color = RecipeTheme.colorScheme.text,
             fontWeight = FontWeight.Medium

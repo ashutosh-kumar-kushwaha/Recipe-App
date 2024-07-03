@@ -1,6 +1,7 @@
 package me.ashutoshkk.recipeapp.domain.model
 
 import me.ashutoshkk.recipeapp.data.remote.dto.AnalyzedInstruction
+import me.ashutoshkk.recipeapp.data.remote.dto.Equipment
 import me.ashutoshkk.recipeapp.data.remote.dto.ExtendedIngredient
 
 data class RecipeDetails(
@@ -12,6 +13,7 @@ data class RecipeDetails(
     val dairyFree: Boolean,
     val diets: List<String>,
     val dishTypes: List<String>,
+    val equipments: List<Equipment>,
     val ingredients: List<Ingredient>,
     val gaps: String,
     val glutenFree: Boolean,

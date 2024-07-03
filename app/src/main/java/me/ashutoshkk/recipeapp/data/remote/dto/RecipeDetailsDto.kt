@@ -52,6 +52,7 @@ fun RecipeDetailsDto.toRecipeDetails() = RecipeDetails(
     dairyFree = this.dairyFree,
     diets = this.diets,
     dishTypes = this.dishTypes,
+    equipments = this.analyzedInstructions.getEquipments(),
     ingredients = this.extendedIngredients.map { it.toIngredient() },
     gaps = this.gaps,
     glutenFree = this.glutenFree,

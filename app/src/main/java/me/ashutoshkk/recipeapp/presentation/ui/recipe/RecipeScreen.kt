@@ -16,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.common.Constants.IMAGE_URL
-import me.ashutoshkk.recipeapp.domain.model.Ingredient
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.Ingredient
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.RecipeImage
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.RecipeInfo
@@ -89,8 +87,11 @@ fun RecipeScreen() {
                     contentPadding = PaddingValues(horizontal = RecipeTheme.paddings.horizontal),
                     horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontal)
                 ) {
-                    items(items = recipe.ingredients, key = { it.id }) {
-                        Ingredient(it)
+                    items(
+                        items = recipe.ingredients,
+                        key = { it.id }
+                    ) {
+                        Ingredient(it.name, IMAGE_URL.plus(it.image))
                     }
                 }
                 Text(
@@ -120,20 +121,18 @@ fun RecipeScreen() {
                     ),
                     fontWeight = FontWeight.Bold
                 )
-                val equipments = remember {
-                    listOf(
-                        Ingredient(1, IMAGE_URL.plus("parsley.jpg"), "Equipment"),
-                        Ingredient(2, IMAGE_URL.plus("parsley.jpg"), "Equipment"),
-                        Ingredient(3, IMAGE_URL.plus("parsley.jpg"), "Equipment"),
-                    )
-                }
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = RecipeTheme.paddings.horizontal),
                     horizontalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.horizontal)
                 ) {
-                    items(items = equipments, key = { it.id }) {
-                        Ingredient(it)
+                    items(
+                        items = recipe.equipments,
+                        key = {
+                            it.id
+                        }
+                    ) {
+                        Ingredient(it.name, it.image)
                     }
                 }
                 Text(
@@ -154,6 +153,7 @@ fun RecipeScreen() {
                         horizontal = RecipeTheme.paddings.horizontal
                     )
                 )
+
             }
         }
     }
