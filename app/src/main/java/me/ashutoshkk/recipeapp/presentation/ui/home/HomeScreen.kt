@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.Screen
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.PopularRecipe
@@ -38,7 +39,7 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navigateTo: (String) -> Unit) {
+fun HomeScreen(navController: NavHostController) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -81,7 +82,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                         )
                     }
                 ) {
-                    navigateTo(Screen.Search.route)
+                    navController.navigate(Screen.Search.route)
                 }
                 Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalInBetweenLarge))
                 Text(
@@ -103,7 +104,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                             key = { it.id }
                         ) {
                             PopularRecipe(it) {
-                                navigateTo(Screen.Recipe.createRoute(it.id))
+                                navController.navigate(Screen.Recipe.createRoute(it.id))
                             }
                         }
                     }
@@ -127,7 +128,7 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
                     key = { it.id }
                 ) {
                     RecipeCard(it) {
-                        navigateTo(Screen.Recipe.createRoute(it.id))
+                        navController.navigate(Screen.Recipe.createRoute(it.id))
                     }
                 }
             }

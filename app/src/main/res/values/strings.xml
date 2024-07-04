@@ -22,4 +22,6 @@
     <string name="full_recipe">Full Recipe</string>
     <string name="get_similar_recipe">Get Similar Recipe</string>
     <string name="similar_recipe">Similar Recipe</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
 </resources>

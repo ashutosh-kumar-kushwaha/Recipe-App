@@ -26,12 +26,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.Screen
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @Composable
-fun OnboardingScreen(navigateTo: (String) -> Unit) {
+fun OnboardingScreen(navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
@@ -43,7 +44,8 @@ fun OnboardingScreen(navigateTo: (String) -> Unit) {
             contentScale = ContentScale.FillHeight
         )
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(RecipeTheme.paddings.allLarge)
         ) {
             Text(
@@ -74,7 +76,7 @@ fun OnboardingScreen(navigateTo: (String) -> Unit) {
             Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalInBetween))
             Button(
                 onClick = {
-                    navigateTo(Screen.Home.route)
+                    navController.navigate(Screen.Dashboard.route)
                 },
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
@@ -86,7 +88,8 @@ fun OnboardingScreen(navigateTo: (String) -> Unit) {
                     modifier = Modifier
                         .height(18.dp)
                         .padding(end = 10.dp),
-                    contentDescription = null)
+                    contentDescription = null
+                )
                 Text(
                     text = "Continue with google",
                     color = Color.White,

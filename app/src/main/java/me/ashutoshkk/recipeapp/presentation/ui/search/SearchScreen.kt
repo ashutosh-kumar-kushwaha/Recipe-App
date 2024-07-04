@@ -18,12 +18,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.RecipeBottomSheet
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchRecipe
@@ -32,8 +32,7 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @Composable
 fun SearchScreen(
-    navigateTo: (String) -> Unit,
-    navigateBack: () -> Boolean
+    navController: NavHostController
 ) {
     val viewModel: SearchViewModel = hiltViewModel()
     val searchText by viewModel.searchText.collectAsStateWithLifecycle()
@@ -62,7 +61,7 @@ fun SearchScreen(
                         modifier = Modifier
                             .size(24.dp)
                             .clickable {
-                                navigateBack()
+                                navController.navigateUp()
                             }
                     )
                 },
