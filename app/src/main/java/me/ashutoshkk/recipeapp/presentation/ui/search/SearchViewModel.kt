@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -89,9 +88,9 @@ class SearchViewModel @Inject constructor(
 
                 is Resource.Success -> {
                     _recipeUiState.value = RecipeUiState(
-                        recipe = response.data!!,
-                        isFavorite = recipeUseCase.isFavoriteRecipe(recipeId).first()
+                        recipe = response.data!!
                     )
+                    checkFavoriteRecipe(recipeId)
                     _showBottomSheet.value = true
                 }
 
@@ -124,6 +123,12 @@ class SearchViewModel @Inject constructor(
 
     fun hideBottomSheet() {
         _showBottomSheet.value = false
+    }
+
+    private fun checkFavoriteRecipe(recipeId: Int) {
+        recipeUseCase.isFavoriteRecipe(recipeId).onEach { isFavorite ->
+            _recipeUiState.update { it.copy(isFavorite = isFavorite) }
+        }.launchIn(viewModelScope)
     }
 
     fun fetchSimilarRecipe() {
