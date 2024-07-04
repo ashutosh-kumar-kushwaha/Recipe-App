@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,6 +51,7 @@ fun SharedTransitionScope.SearchScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
     val showBottomSheet by viewModel.showBottomSheet.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -87,10 +90,15 @@ fun SharedTransitionScope.SearchScreen(
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .sharedElement(
-                    state = rememberSharedContentState(key = "search_bar"),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                    boundsTransform = { _, _ ->
-                        tween(750)
+                        state = rememberSharedContentState(key = "search_bar"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(750)
+                        }
+                    ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        focusManager.clearFocus()
                     }
                 )
             )

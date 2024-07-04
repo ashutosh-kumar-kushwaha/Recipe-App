@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -21,10 +22,11 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 fun SearchTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     readOnly: Boolean = false,
-    modifier: Modifier = Modifier,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onClick: () -> Unit = {}
 ) {
     OutlinedTextField(
@@ -62,6 +64,7 @@ fun SearchTextField(
             },
         readOnly = readOnly,
         enabled = !readOnly,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = keyboardActions
     )
 }
