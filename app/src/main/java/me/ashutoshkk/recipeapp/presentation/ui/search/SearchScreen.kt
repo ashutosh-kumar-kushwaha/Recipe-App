@@ -109,7 +109,10 @@ fun SharedTransitionScope.SearchScreen(
                     contentPadding = PaddingValues(horizontal = RecipeTheme.paddings.horizontal)
                 ) {
                     items(uiState.recipes) {
-                        SearchRecipe(it) {
+                        SearchRecipe(
+                            recipe = it,
+                            query = searchText
+                        ) {
                             viewModel.fetchRecipe(it)
                         }
                     }
