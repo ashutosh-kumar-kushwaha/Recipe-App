@@ -21,9 +21,9 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 @Composable
 fun RecipeBottomSheetDragHandle(
     name: String,
+    isFavorite: Boolean,
+    toggleFavorite: () -> Unit,
     onBackClick: () -> Unit,
-    isAddedToWaitlist: Boolean,
-    onWaitlistClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -54,14 +54,14 @@ fun RecipeBottomSheetDragHandle(
             overflow = TextOverflow.Ellipsis
         )
         IconButton(
-            onClick = onWaitlistClick,
+            onClick = toggleFavorite,
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = RecipeTheme.colorScheme.primary,
             )
         ) {
             Icon(
                 painter = painterResource(
-                    id = if (isAddedToWaitlist) R.drawable.heart_filled else R.drawable.heart_outlined
+                    id = if (isFavorite) R.drawable.heart_filled else R.drawable.heart_outlined
                 ),
                 contentDescription = null,
                 modifier = Modifier

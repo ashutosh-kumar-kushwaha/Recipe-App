@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.ashutoshkk.recipeapp.common.Resource
 import me.ashutoshkk.recipeapp.data.remote.dto.toRecipeDetails
+import me.ashutoshkk.recipeapp.data.room.FavoriteRecipe
 import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 import me.ashutoshkk.recipeapp.domain.repository.RecipeRepository
 import retrofit2.HttpException
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 class RecipeUseCase @Inject constructor(private val repository: RecipeRepository) {
 
-    operator fun invoke(id: Int): Flow<Resource<RecipeDetails>> = flow {
+    fun getDetails(id: Int): Flow<Resource<RecipeDetails>> = flow {
         emit(Resource.Loading())
         try {
             emit(Resource.Success(repository.getRecipeDetails(id).toRecipeDetails()))
@@ -27,5 +28,14 @@ class RecipeUseCase @Inject constructor(private val repository: RecipeRepository
             e.printStackTrace()
         }
     }
+
+    suspend fun getAllFavoriteRecipes() = repository.getAllFavoriteRecipes()
+
+    suspend fun insertFavoriteRecipe(recipe: FavoriteRecipe) =
+        repository.insertFavoriteRecipe(recipe)
+
+    suspend fun deleteFavoriteRecipe(recipeId: Int) = repository.deleteFavoriteRecipe(recipeId)
+
+    fun isFavoriteRecipe(recipeId: Int) = repository.isFavoriteRecipe(recipeId)
 
 }

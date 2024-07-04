@@ -44,12 +44,12 @@ fun RecipeScreen() {
                 RecipeImage(
                     name = recipe.title,
                     imageUrl = recipe.image,
-                    isAddedToWaitlist = false,
+                    isFavorite = uiState.isFavorite,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
                 ) {
-
+                    viewModel.toggleFavorite()
                 }
                 Row(
                     modifier = Modifier

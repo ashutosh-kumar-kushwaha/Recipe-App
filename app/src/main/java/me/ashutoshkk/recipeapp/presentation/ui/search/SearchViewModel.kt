@@ -8,10 +8,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.ashutoshkk.recipeapp.common.Resource
+import me.ashutoshkk.recipeapp.data.room.toFavoriteRecipe
 import me.ashutoshkk.recipeapp.domain.useCase.RecipeUseCase
 import me.ashutoshkk.recipeapp.domain.useCase.SearchRecipeUseCase
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.RecipeUiState
@@ -20,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchRecipe: SearchRecipeUseCase,
-    private val getRecipe: RecipeUseCase
+    private val recipeUseCase: RecipeUseCase
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -80,12 +83,15 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchRecipe(recipeId: Int) {
-        getRecipe(recipeId).onEach { response ->
+        recipeUseCase.getDetails(recipeId).onEach { response ->
             when (response) {
                 is Resource.Loading -> {}
 
                 is Resource.Success -> {
-                    _recipeUiState.value = RecipeUiState(recipe = response.data!!)
+                    _recipeUiState.value = RecipeUiState(
+                        recipe = response.data!!,
+                        isFavorite = recipeUseCase.isFavoriteRecipe(recipeId).first()
+                    )
                     _showBottomSheet.value = true
                 }
 
@@ -94,6 +100,18 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun toggleFavorite() {
+        viewModelScope.launch {
+            if (recipeUiState.value.isFavorite) {
+                recipeUiState.value.recipe?.let {
+                    recipeUseCase.deleteFavoriteRecipe(it.id)
+                }
+            } else {
+                recipeUiState.value.recipe?.let { recipeUseCase.insertFavoriteRecipe(it.toFavoriteRecipe()) }
+            }
+        }
     }
 
     fun resetErrorMessage() {

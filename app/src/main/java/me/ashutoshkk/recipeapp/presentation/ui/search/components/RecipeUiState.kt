@@ -5,5 +5,6 @@ import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 
 data class RecipeUiState (
     val recipe: RecipeDetails? = null,
-    val similarRecipe: List<Recipe> = emptyList()
+    val similarRecipe: List<Recipe> = emptyList(),
+    val isFavorite: Boolean = false
 )

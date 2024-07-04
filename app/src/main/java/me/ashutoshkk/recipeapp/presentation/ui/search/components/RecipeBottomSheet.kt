@@ -35,6 +35,8 @@ import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
 fun RecipeBottomSheet(
     recipe: RecipeDetails,
     similarRecipe: List<Recipe>,
+    isFavorite: Boolean = false,
+    toggleFavorite: () -> Unit,
     fetchSimilarRecipe: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -62,41 +64,39 @@ fun RecipeBottomSheet(
         dragHandle = {
             RecipeBottomSheetDragHandle(
                 name = recipe.title,
-                isAddedToWaitlist = false,
-                onBackClick = {
-                    back = true
-                    when (step) {
-                        Step.IMAGE -> {}
-                        Step.INGREDIENTS -> {
-                            scope.launch {
-                                step = Step.IMAGE
-                                ingredientsStepState.targetState = false
-                                delay(750)
-                                imageStepState.targetState = true
-                            }
+                isFavorite = isFavorite,
+                toggleFavorite = toggleFavorite
+            ) {
+                back = true
+                when (step) {
+                    Step.IMAGE -> {}
+                    Step.INGREDIENTS -> {
+                        scope.launch {
+                            step = Step.IMAGE
+                            ingredientsStepState.targetState = false
+                            delay(750)
+                            imageStepState.targetState = true
                         }
+                    }
 
-                        Step.FULL_RECIPE -> {
-                            scope.launch {
-                                step = Step.INGREDIENTS
-                                recipeStepState.targetState = false
-                                delay(800)
-                                ingredientsStepState.targetState = true
-                            }
+                    Step.FULL_RECIPE -> {
+                        scope.launch {
+                            step = Step.INGREDIENTS
+                            recipeStepState.targetState = false
+                            delay(800)
+                            ingredientsStepState.targetState = true
                         }
+                    }
 
-                        Step.SIMILAR_RECIPE -> {
-                            scope.launch {
-                                step = Step.FULL_RECIPE
-                                similarStepState.targetState = false
-                                delay(700)
-                                recipeStepState.targetState = true
-                            }
+                    Step.SIMILAR_RECIPE -> {
+                        scope.launch {
+                            step = Step.FULL_RECIPE
+                            similarStepState.targetState = false
+                            delay(700)
+                            recipeStepState.targetState = true
                         }
                     }
                 }
-            ) {
-
             }
         }
     ) {

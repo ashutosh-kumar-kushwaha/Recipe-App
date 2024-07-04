@@ -9,14 +9,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.ashutoshkk.recipeapp.common.Resource
+import me.ashutoshkk.recipeapp.data.room.toFavoriteRecipe
 import me.ashutoshkk.recipeapp.domain.useCase.RecipeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getRecipeDetails: RecipeUseCase
+    private val useCase: RecipeUseCase
 ) : ViewModel() {
 
     private val recipeId: Int = savedStateHandle.get<String>("recipeId")!!.toInt()
@@ -26,10 +28,11 @@ class RecipeViewModel @Inject constructor(
 
     init {
         fetchRecipeDetails()
+        checkFavoriteRecipe()
     }
 
     private fun fetchRecipeDetails() {
-        getRecipeDetails(recipeId).onEach { response ->
+        useCase.getDetails(recipeId).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
                     _uiState.update { it.copy(isLoading = true) }
@@ -54,6 +57,22 @@ class RecipeViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun checkFavoriteRecipe() {
+        useCase.isFavoriteRecipe(recipeId).onEach { isFavorite ->
+            _uiState.update { it.copy(isFavorite = isFavorite) }
+        }
+    }
+
+    fun toggleFavorite() {
+        viewModelScope.launch {
+            if (uiState.value.isFavorite) {
+                useCase.deleteFavoriteRecipe(recipeId)
+            } else {
+                uiState.value.recipe?.let { useCase.insertFavoriteRecipe(it.toFavoriteRecipe()) }
+            }
+        }
     }
 
     fun resetErrorMessage() {

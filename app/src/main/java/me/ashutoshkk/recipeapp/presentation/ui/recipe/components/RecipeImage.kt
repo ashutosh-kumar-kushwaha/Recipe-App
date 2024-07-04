@@ -35,9 +35,9 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 fun RecipeImage(
     name: String,
     imageUrl: String,
-    isAddedToWaitlist: Boolean,
+    isFavorite: Boolean,
     modifier: Modifier,
-    onWaitlistClick: () -> Unit
+    onFavoriteClick: () -> Unit
 ) {
     val painter = rememberAsyncImagePainter(model = imageUrl)
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
@@ -66,7 +66,7 @@ fun RecipeImage(
                 )
         )
         IconButton(
-            onClick = onWaitlistClick,
+            onClick = onFavoriteClick,
             modifier = Modifier
                 .padding(RecipeTheme.paddings.allLarge)
                 .align(Alignment.TopEnd)
@@ -79,7 +79,7 @@ fun RecipeImage(
         ) {
             Icon(
                 painter = painterResource(
-                    id = if (isAddedToWaitlist) R.drawable.heart_filled else R.drawable.heart_outlined
+                    id = if (isFavorite) R.drawable.heart_filled else R.drawable.heart_outlined
                 ),
                 contentDescription = null,
                 modifier = Modifier
@@ -103,7 +103,7 @@ fun RecipeImagePreview() {
     RecipeImage(
         name = "Paneer",
         imageUrl = "",
-        isAddedToWaitlist = false,
+        isFavorite = false,
         modifier = Modifier.fillMaxSize()
     ) {
 

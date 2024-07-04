@@ -102,9 +102,13 @@ fun SearchScreen(
                     RecipeBottomSheet(
                         recipe = recipe,
                         similarRecipe = recipeUiState.similarRecipe,
+                        isFavorite = recipeUiState.isFavorite,
+                        toggleFavorite = {
+                            viewModel.toggleFavorite()
+                        },
                         fetchSimilarRecipe = {
                             viewModel.fetchSimilarRecipe()
-                        }
+                        },
                     ) {
                         viewModel.hideBottomSheet()
                     }
