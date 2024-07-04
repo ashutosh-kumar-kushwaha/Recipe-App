@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
@@ -48,7 +49,9 @@ fun RecipeBottomSheetDragHandle(
             text = name,
             style = RecipeTheme.typography.titleLarge,
             color = RecipeTheme.colorScheme.heading,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         IconButton(
             onClick = onWaitlistClick,
