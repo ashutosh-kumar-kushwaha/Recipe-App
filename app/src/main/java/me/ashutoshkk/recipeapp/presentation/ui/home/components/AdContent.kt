@@ -1,6 +1,7 @@
 package me.ashutoshkk.recipeapp.presentation.ui.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
@@ -21,6 +23,7 @@ fun AdContent() {
                 horizontal = RecipeTheme.paddings.horizontal,
                 vertical = RecipeTheme.paddings.vertical
             )
+            .border(1.dp, RecipeTheme.colorScheme.border)
             .background(RecipeTheme.colorScheme.background2)
             .padding(RecipeTheme.paddings.allMedium),
         contentAlignment = Alignment.Center
