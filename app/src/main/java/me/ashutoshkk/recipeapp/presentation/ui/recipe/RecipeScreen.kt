@@ -12,9 +12,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.common.Constants.IMAGE_URL
+import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
+import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.ErrorScreen
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.Ingredient
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.OtherRecipeDetails
 import me.ashutoshkk.recipeapp.presentation.ui.recipe.components.RecipeImage
@@ -32,7 +38,12 @@ import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 fun RecipeScreen() {
     val viewModel: RecipeViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    Scaffold {
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,7 +51,8 @@ fun RecipeScreen() {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.verticalInBetween)
         ) {
-            uiState.recipe?.let { recipe ->
+            if (uiState.recipe != null) {
+                val recipe = uiState.recipe!!
                 RecipeImage(
                     name = recipe.title,
                     imageUrl = recipe.image,
@@ -95,6 +107,21 @@ fun RecipeScreen() {
                     }
                 }
                 OtherRecipeDetails(recipe = recipe)
+            } else if (uiState.isLoading) {
+                ProgressBar()
+            } else {
+                ErrorScreen {
+                    viewModel.fetchRecipeDetails()
+                }
+            }
+        }
+
+        if (!uiState.error.isNullOrBlank()) {
+            LaunchedEffect(Unit) {
+                snackbarHostState.showSnackbar(
+                    message = uiState.error!!
+                )
+                viewModel.resetErrorMessage()
             }
         }
     }

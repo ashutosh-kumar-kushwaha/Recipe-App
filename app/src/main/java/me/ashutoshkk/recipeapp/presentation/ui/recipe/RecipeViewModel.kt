@@ -31,7 +31,7 @@ class RecipeViewModel @Inject constructor(
         checkFavoriteRecipe()
     }
 
-    private fun fetchRecipeDetails() {
+    fun fetchRecipeDetails() {
         useCase.getDetails(recipeId).onEach { response ->
             when (response) {
                 is Resource.Loading -> {

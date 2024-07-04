@@ -25,4 +25,6 @@
     <string name="home">Home</string>
     <string name="favorite">Favorite</string>
     <string name="favorite_recipes">Favorite Recipes</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="retry">Retry</string>
 </resources>
