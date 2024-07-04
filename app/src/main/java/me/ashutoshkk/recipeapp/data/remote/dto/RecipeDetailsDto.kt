@@ -44,40 +44,17 @@ data class RecipeDetailsDto(
 )
 
 fun RecipeDetailsDto.toRecipeDetails() = RecipeDetails(
-    aggregateLikes = this.aggregateLikes,
     analyzedInstructions = this.analyzedInstructions,
-    cheap = this.cheap,
-    creditsText = this.creditsText,
-    cuisines = this.cuisines,
-    dairyFree = this.dairyFree,
-    diets = this.diets,
-    dishTypes = this.dishTypes,
     equipments = this.analyzedInstructions.getEquipments(),
     ingredients = this.extendedIngredients.map { it.toIngredient() },
-    gaps = this.gaps,
-    glutenFree = this.glutenFree,
-    healthScore = this.healthScore,
     id = this.id,
     image = this.image,
-    imageType = this.imageType,
     instructions = this.instructions,
-    lowFodmap = this.lowFodmap,
-    occasions = this.occasions,
     pricePerServing = this.pricePerServing,
     readyInMinutes = this.readyInMinutes,
     servings = this.servings,
-    sourceName = this.sourceName,
-    sourceUrl = this.sourceUrl,
-    spoonacularScore = this.spoonacularScore,
-    spoonacularSourceUrl = this.spoonacularSourceUrl,
     summary = this.summary,
-    sustainable = this.sustainable,
     title = this.title,
-    vegan = this.vegan,
-    vegetarian = this.vegetarian,
-    veryHealthy = this.veryHealthy,
-    veryPopular = this.veryPopular,
-    weightWatcherSmartPoints = this.weightWatcherSmartPoints
 )
 
 fun RecipeDetailsDto.toRandomRecipe() = RandomRecipe(id, image, title, readyInMinutes)
