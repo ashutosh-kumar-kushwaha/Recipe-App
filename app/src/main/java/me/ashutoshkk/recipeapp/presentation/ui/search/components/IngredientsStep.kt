@@ -31,7 +31,7 @@ fun IngredientsStep(
             .fillMaxWidth()
             .navigationBarsPadding()
     ) {
-        Heading(R.string.get_full_recipe, onBackClick)
+        Heading(R.string.ingredients, onBackClick)
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.vertical),

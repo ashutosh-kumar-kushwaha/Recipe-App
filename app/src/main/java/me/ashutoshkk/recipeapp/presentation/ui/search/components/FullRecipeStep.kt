@@ -25,10 +25,11 @@ fun FullRecipeStep(
             .fillMaxWidth()
             .navigationBarsPadding()
     ) {
-        Heading(R.string.get_full_recipe, onBackClick)
+        Heading(R.string.full_recipe, onBackClick)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = RecipeTheme.paddings.verticalLarge),
             verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.verticalInBetween)

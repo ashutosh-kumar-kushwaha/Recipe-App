@@ -3,17 +3,9 @@ package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -23,16 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import me.ashutoshkk.recipeapp.R
+import me.ashutoshkk.recipeapp.domain.model.Recipe
 import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
-import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeBottomSheet(
     recipe: RecipeDetails,
+    similarRecipe: List<Recipe>,
+    fetchSimilarRecipe: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     ModalBottomSheet(
@@ -83,8 +75,8 @@ fun RecipeBottomSheet(
                     step = Step.FULL_RECIPE
                 }
             }
-            if(step == Step.FULL_RECIPE || step == Step.SIMILAR_RECIPE){
-                Heading(R.string.get_ingredients){
+            if (step == Step.FULL_RECIPE || step == Step.SIMILAR_RECIPE) {
+                Heading(R.string.ingredients) {
                     step = Step.IMAGE
                 }
             }
@@ -101,11 +93,12 @@ fun RecipeBottomSheet(
                         step = Step.INGREDIENTS
                     }
                 ) {
+                    fetchSimilarRecipe()
                     step = Step.SIMILAR_RECIPE
                 }
             }
-            if(step == Step.SIMILAR_RECIPE){
-                Heading(R.string.get_full_recipe){
+            if (step == Step.SIMILAR_RECIPE) {
+                Heading(R.string.full_recipe) {
                     step = Step.INGREDIENTS
                 }
             }
@@ -116,14 +109,12 @@ fun RecipeBottomSheet(
                     initialOffsetY = { 1980 }
                 )
             ) {
-                FullRecipeStep(
-                    recipe,
-                    onBackClick = {
-                        step = Step.INGREDIENTS
-                    }
+                SimilarRecipeStep(
+                    similarRecipe,
                 ) {
-                    step = Step.SIMILAR_RECIPE
+                    step = Step.FULL_RECIPE
                 }
+
             }
         }
 

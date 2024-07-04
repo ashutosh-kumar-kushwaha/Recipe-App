@@ -82,12 +82,10 @@ class SearchViewModel @Inject constructor(
     fun fetchRecipe(recipeId: Int) {
         getRecipe(recipeId).onEach { response ->
             when (response) {
-                is Resource.Loading -> {
-
-                }
+                is Resource.Loading -> {}
 
                 is Resource.Success -> {
-                    _recipeUiState.value = RecipeUiState(response.data!!)
+                    _recipeUiState.value = RecipeUiState(recipe = response.data!!)
                     _showBottomSheet.value = true
                 }
 
@@ -108,5 +106,23 @@ class SearchViewModel @Inject constructor(
 
     fun hideBottomSheet() {
         _showBottomSheet.value = false
+    }
+
+    fun fetchSimilarRecipe() {
+        if (recipeUiState.value.similarRecipe.isEmpty()) {
+            getSearchRecipe().onEach { response ->
+                when (response) {
+                    is Resource.Loading -> {}
+
+                    is Resource.Success -> {
+                        _recipeUiState.update { it.copy(similarRecipe = response.data!!) }
+                    }
+
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(error = response.message) }
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
     }
 }

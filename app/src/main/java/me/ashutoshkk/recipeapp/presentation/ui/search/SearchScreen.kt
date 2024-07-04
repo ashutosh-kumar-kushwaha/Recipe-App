@@ -101,7 +101,11 @@ fun SearchScreen(
             if (showBottomSheet) {
                 recipeUiState.recipe?.let { recipe ->
                     RecipeBottomSheet(
-                        recipe = recipe
+                        recipe = recipe,
+                        similarRecipe = recipeUiState.similarRecipe,
+                        fetchSimilarRecipe = {
+                            viewModel.fetchSimilarRecipe()
+                        }
                     ) {
                         viewModel.hideBottomSheet()
                     }
