@@ -1,7 +1,9 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -13,11 +15,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.delay
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.domain.model.Recipe
 import me.ashutoshkk.recipeapp.domain.model.RecipeDetails
@@ -60,11 +64,64 @@ fun RecipeBottomSheet(
             }
         }
     ) {
+        val visibleState1 =
+            remember { MutableTransitionState(false).apply { targetState = true } }
+        val visibleState2 =
+            remember { MutableTransitionState(false).apply { targetState = false } }
+        val visibleState3 =
+            remember { MutableTransitionState(false).apply { targetState = false } }
+        val visibleState4 =
+            remember { MutableTransitionState(false).apply { targetState = false } }
+
+        when (step) {
+            Step.IMAGE -> {
+                LaunchedEffect(Unit) {
+                    visibleState2.targetState = false
+                    visibleState3.targetState = false
+                    visibleState4.targetState = false
+                    if (back) delay(750)
+                    visibleState1.targetState = true
+                }
+            }
+
+            Step.INGREDIENTS -> {
+                LaunchedEffect(Unit) {
+                    visibleState1.targetState = false
+                    visibleState3.targetState = false
+                    visibleState4.targetState = false
+                    if (back) delay(800)
+                    visibleState2.targetState = true
+                }
+            }
+
+            Step.FULL_RECIPE -> {
+                LaunchedEffect(Unit) {
+                    visibleState1.targetState = false
+                    visibleState2.targetState = false
+                    visibleState4.targetState = false
+                    if (back) delay(750)
+                    visibleState3.targetState = true
+                }
+            }
+
+            Step.SIMILAR_RECIPE -> {
+                LaunchedEffect(Unit) {
+                    visibleState1.targetState = false
+                    visibleState2.targetState = false
+                    visibleState3.targetState = false
+                    if (back) delay(700)
+                    visibleState4.targetState = true
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
         ) {
             AnimatedVisibility(
-                visible = step == Step.IMAGE,
+                visibleState = visibleState1,
+                enter = fadeIn(tween(1)),
+                exit = fadeOut(tween(1))
             ) {
                 ImageStep(recipe = recipe) {
                     back = false
@@ -72,7 +129,7 @@ fun RecipeBottomSheet(
                 }
             }
             AnimatedVisibility(
-                visible = step == Step.INGREDIENTS,
+                visibleState = visibleState2,
                 enter = if (back) {
                     fadeIn(tween(1))
                 } else {
@@ -81,7 +138,7 @@ fun RecipeBottomSheet(
                         initialOffsetY = { 1980 }
                     )
                 },
-                exit = if(back) {
+                exit = if (back) {
                     slideOutVertically(
                         tween(1500),
                         targetOffsetY = { 1980 }
@@ -102,16 +159,9 @@ fun RecipeBottomSheet(
                 }
             }
             AnimatedVisibility(
-                step == Step.FULL_RECIPE || step == Step.SIMILAR_RECIPE,
+                visible = step == Step.FULL_RECIPE || step == Step.SIMILAR_RECIPE,
                 enter = fadeIn(tween(1)),
-                exit = if(back) {
-                    slideOutVertically(
-                        tween(1500),
-                        targetOffsetY = { 1980 }
-                    )
-                } else {
-                    fadeOut(tween(1))
-                }
+                exit = fadeOut(tween(1500), targetAlpha = 0.99f)
             ) {
                 Heading(R.string.ingredients) {
                     back = true
@@ -119,7 +169,7 @@ fun RecipeBottomSheet(
                 }
             }
             AnimatedVisibility(
-                visible = step == Step.FULL_RECIPE,
+                visibleState3,
                 enter = if (back) {
                     fadeIn(tween(1))
                 } else {
@@ -128,7 +178,7 @@ fun RecipeBottomSheet(
                         initialOffsetY = { 1980 }
                     )
                 },
-                exit = if(back) {
+                exit = if (back) {
                     slideOutVertically(
                         tween(1500),
                         targetOffsetY = { 1980 }
@@ -152,7 +202,7 @@ fun RecipeBottomSheet(
             AnimatedVisibility(
                 visible = step == Step.SIMILAR_RECIPE,
                 enter = fadeIn(tween(1)),
-                exit = fadeOut(tween(1))
+                exit = fadeOut(tween(1500), targetAlpha = 0.99f)
             ) {
                 Heading(R.string.full_recipe) {
                     back = true
@@ -160,7 +210,7 @@ fun RecipeBottomSheet(
                 }
             }
             AnimatedVisibility(
-                visible = step == Step.SIMILAR_RECIPE,
+                visibleState4,
                 enter = if (back) {
                     fadeIn(tween(1))
                 } else {
@@ -169,7 +219,7 @@ fun RecipeBottomSheet(
                         initialOffsetY = { 1980 }
                     )
                 },
-                exit = if(back) {
+                exit = if (back) {
                     slideOutVertically(
                         tween(1500),
                         targetOffsetY = { 1980 }
@@ -187,8 +237,6 @@ fun RecipeBottomSheet(
 
             }
         }
-
-
     }
 
 
