@@ -1,5 +1,9 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,19 +24,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.android.awaitFrame
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.RecipeBottomSheet
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchRecipe
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchTextField
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SearchScreen(
-    navController: NavHostController
+fun SharedTransitionScope.SearchScreen(
+    navController: NavHostController,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val viewModel: SearchViewModel = hiltViewModel()
     val searchText by viewModel.searchText.collectAsStateWithLifecycle()
@@ -45,6 +54,7 @@ fun SearchScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) {
+        val focusRequester = remember { FocusRequester() }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -73,7 +83,16 @@ fun SearchScreen(
                             viewModel.clearSearchText()
                         }
                     )
-                }
+                },
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .sharedElement(
+                    state = rememberSharedContentState(key = "search_bar"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    boundsTransform = { _, _ ->
+                        tween(750)
+                    }
+                )
             )
             if (uiState.isLoading) {
                 ProgressBar()
@@ -113,6 +132,10 @@ fun SearchScreen(
                         viewModel.hideBottomSheet()
                     }
                 }
+            }
+            LaunchedEffect(focusRequester) {
+                awaitFrame()
+                focusRequester.requestFocus()
             }
         }
     }

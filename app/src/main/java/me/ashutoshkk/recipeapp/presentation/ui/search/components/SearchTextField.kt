@@ -24,6 +24,7 @@ fun SearchTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     readOnly: Boolean = false,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
     OutlinedTextField(
@@ -53,7 +54,7 @@ fun SearchTextField(
             errorBorderColor = Color.Transparent,
             cursorColor = RecipeTheme.colorScheme.cursor
         ),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = RecipeTheme.paddings.horizontal)
             .clickable {

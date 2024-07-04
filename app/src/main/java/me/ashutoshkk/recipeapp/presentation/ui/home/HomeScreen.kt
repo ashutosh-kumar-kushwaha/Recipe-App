@@ -1,5 +1,8 @@
 package me.ashutoshkk.recipeapp.presentation.ui.home
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -38,9 +41,12 @@ import me.ashutoshkk.recipeapp.presentation.ui.home.components.RecipeCard
 import me.ashutoshkk.recipeapp.presentation.ui.search.components.SearchTextField
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun SharedTransitionScope.HomeScreen(
+    navController: NavHostController,
+    animatedVisibilityScope: AnimatedVisibilityScope
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -81,7 +87,11 @@ fun HomeScreen(navController: NavHostController) {
                             modifier = Modifier.size(28.dp),
                             tint = RecipeTheme.colorScheme.icon
                         )
-                    }
+                    },
+                    modifier = Modifier.sharedElement(
+                        state = rememberSharedContentState(key = "search_bar"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
                 ) {
                     navController.navigate(Screen.Search.route)
                 }
