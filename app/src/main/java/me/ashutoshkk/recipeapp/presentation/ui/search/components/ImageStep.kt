@@ -31,6 +31,7 @@ fun ImageStep(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .padding(bottom = RecipeTheme.paddings.verticalLarge),
             verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.verticalInBetween)
         ) {
