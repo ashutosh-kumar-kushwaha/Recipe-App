@@ -29,7 +29,7 @@ class RecipeUseCase @Inject constructor(private val repository: RecipeRepository
         }
     }
 
-    suspend fun getAllFavoriteRecipes() = repository.getAllFavoriteRecipes()
+    fun getAllFavoriteRecipes() = repository.getAllFavoriteRecipes()
 
     suspend fun insertFavoriteRecipe(recipe: FavoriteRecipe) =
         repository.insertFavoriteRecipe(recipe)

@@ -62,7 +62,7 @@ class RecipeViewModel @Inject constructor(
     private fun checkFavoriteRecipe() {
         useCase.isFavoriteRecipe(recipeId).onEach { isFavorite ->
             _uiState.update { it.copy(isFavorite = isFavorite) }
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun toggleFavorite() {

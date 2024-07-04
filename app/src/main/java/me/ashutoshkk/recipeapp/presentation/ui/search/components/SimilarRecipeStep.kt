@@ -2,6 +2,7 @@ package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -41,12 +42,18 @@ fun SimilarRecipeStep(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = RecipeTheme.paddings.vertical)
+                .padding(bottom = RecipeTheme.paddings.vertical),
+            contentPadding = PaddingValues(
+                horizontal = RecipeTheme.paddings.horizontal,
+            )
         ) {
             items(similarRecipe) {
                 RecipeCard(
-                    recipe = it
-                ) {}
+                    title = it.title,
+                    imageUrl = it.image,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
             }
         }
     }

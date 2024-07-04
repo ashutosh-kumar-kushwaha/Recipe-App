@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -127,7 +128,16 @@ fun HomeScreen(navController: NavHostController) {
                     items = uiState.allRecipe,
                     key = { it.id }
                 ) {
-                    RecipeCard(it) {
+                    RecipeCard(
+                        title = it.title,
+                        imageUrl = it.image,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = RecipeTheme.paddings.horizontal,
+                                vertical = RecipeTheme.paddings.verticalSmall
+                            )
+                    ) {
                         navController.navigate(Screen.Recipe.createRoute(it.id))
                     }
                 }

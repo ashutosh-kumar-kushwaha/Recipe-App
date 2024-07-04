@@ -27,7 +27,7 @@ fun HomeNavGraph(navController: NavHostController) {
             RecipeScreen()
         }
         composable(route = BottomTabs.Favorite.route) {
-            FavoriteScreen()
+            FavoriteScreen(navController)
         }
     }
 }

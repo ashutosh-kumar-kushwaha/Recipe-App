@@ -14,25 +14,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import me.ashutoshkk.recipeapp.domain.model.Recipe
 import me.ashutoshkk.recipeapp.presentation.ui.theme.RecipeTheme
 import kotlin.random.Random
 
 @Composable
-fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
+fun RecipeCard(
+    title: String,
+    imageUrl: String,
+    modifier: Modifier = Modifier,
+    readyInMinutes: Int = -1,
+    onClick: () -> Unit = {}
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = RecipeTheme.paddings.horizontal,
-                vertical = RecipeTheme.paddings.verticalSmall
-            )
+        modifier = modifier
             .clip(RoundedCornerShape(12.dp))
             .border(
                 width = 1.dp,
@@ -44,7 +45,7 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val painter = rememberAsyncImagePainter(model = recipe.image)
+        val painter = rememberAsyncImagePainter(model = imageUrl)
         Image(
             painter = painter,
             contentDescription = null,
@@ -63,12 +64,15 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = recipe.title,
+                text = title,
                 style = RecipeTheme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(RecipeTheme.paddings.verticalSmall))
+            val ready = remember {
+                if (readyInMinutes == -1) Random.nextInt(20, 59) else readyInMinutes
+            }
             Text(
-                text = "Ready in ${Random.nextInt(20, 59)} min",
+                text = "Ready in $ready min",
                 style = RecipeTheme.typography.labelLarge,
                 color = RecipeTheme.colorScheme.subText
             )
