@@ -34,51 +34,51 @@ import kotlin.math.roundToInt
 @Composable
 fun Heading(
     @StringRes name: Int,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    offset: IntOffset,
+    onOffsetChange: (IntOffset) -> Unit
 ) {
     var direction by remember { mutableStateOf(Direction.NONE) }
-    var offset by remember { mutableStateOf(IntOffset(0, 0)) }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .offset { offset }
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
-                        change.consume()
-                        if (dragAmount.y > 0) {
-                            offset += IntOffset(0, dragAmount.y.roundToInt())
-                        }
-                        val (x, y) = dragAmount
-                        if (abs(x) > abs(y)) {
-                            when {
-                                x > 0 -> {
-                                    direction = Direction.RIGHT
-                                }
-
-                                x < 0 -> {
-                                    direction = Direction.LEFT
-                                }
-                            }
-                        } else {
-                            when {
-                                y > 0 -> {
-                                    direction = Direction.DOWN
-                                }
-
-                                y < 0 -> {
-                                    direction = Direction.UP
-                                }
-                            }
-                        }
-                    },
-                    onDragEnd = {
-                        if (direction == Direction.DOWN) onBackClick()
-                        offset = IntOffset(0, 0)
-                    }
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .offset { offset }
+        .pointerInput(Unit) {
+            detectDragGestures(onDrag = { change, dragAmount ->
+                change.consume()
+                val (x, y) = dragAmount
+                onOffsetChange(
+                    offset + IntOffset(0,
+                        y
+                            .roundToInt()
+                            .coerceAtLeast(0)
+                    )
                 )
-            }
-    ) {
+                if (abs(x) > abs(y)) {
+                    when {
+                        x > 0 -> {
+                            direction = Direction.RIGHT
+                        }
+
+                        x < 0 -> {
+                            direction = Direction.LEFT
+                        }
+                    }
+                } else {
+                    when {
+                        y > 0 -> {
+                            direction = Direction.DOWN
+                        }
+
+                        y < 0 -> {
+                            direction = Direction.UP
+                        }
+                    }
+                }
+            }, onDragEnd = {
+                if (direction == Direction.DOWN) onBackClick()
+                onOffsetChange(IntOffset(0, 0))
+            })
+        }) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -91,8 +91,7 @@ fun Heading(
                 .padding(
                     horizontal = RecipeTheme.paddings.horizontal,
                     vertical = RecipeTheme.paddings.verticalSmall
-                ),
-            verticalAlignment = Alignment.CenterVertically
+                ), verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = stringResource(name),
@@ -114,9 +113,5 @@ fun Heading(
 }
 
 enum class Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    NONE
+    UP, DOWN, LEFT, RIGHT, NONE
 }

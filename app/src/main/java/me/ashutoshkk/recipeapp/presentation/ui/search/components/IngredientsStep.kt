@@ -1,18 +1,21 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.common.Constants.IMAGE_URL
@@ -26,12 +29,16 @@ fun IngredientsStep(
     onBackClick: () -> Unit,
     onFullRecipeClick: () -> Unit,
 ) {
+    var offset by remember { mutableStateOf(IntOffset(0, 0)) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .offset(y = offset.y.dp)
             .navigationBarsPadding()
     ) {
-        Heading(R.string.ingredients, onBackClick)
+        Heading(R.string.ingredients, onBackClick, offset) {
+            offset = it
+        }
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(RecipeTheme.paddings.vertical),

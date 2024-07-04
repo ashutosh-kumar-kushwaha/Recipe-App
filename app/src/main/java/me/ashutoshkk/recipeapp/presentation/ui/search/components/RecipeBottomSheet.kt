@@ -1,6 +1,7 @@
 package me.ashutoshkk.recipeapp.presentation.ui.search.components
 
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -9,7 +10,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -20,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.ashutoshkk.recipeapp.R
@@ -96,49 +101,6 @@ fun RecipeBottomSheet(
             }
         }
     ) {
-
-//        when (step) {
-//            Step.IMAGE -> {
-//                LaunchedEffect(Unit) {
-//                    visibleState2.targetState = false
-//                    visibleState3.targetState = false
-//                    visibleState4.targetState = false
-//                    if (back) delay(750)
-//                    visibleState1.targetState = true
-//                }
-//            }
-//
-//            Step.INGREDIENTS -> {
-//                LaunchedEffect(Unit) {
-//                    visibleState1.targetState = false
-//                    visibleState3.targetState = false
-//                    visibleState4.targetState = false
-//                    if (back) delay(800)
-//                    visibleState2.targetState = true
-//                }
-//            }
-//
-//            Step.FULL_RECIPE -> {
-//                LaunchedEffect(Unit) {
-//                    visibleState1.targetState = false
-//                    visibleState2.targetState = false
-//                    visibleState4.targetState = false
-//                    if (back) delay(750)
-//                    visibleState3.targetState = true
-//                }
-//            }
-//
-//            Step.SIMILAR_RECIPE -> {
-//                LaunchedEffect(Unit) {
-//                    visibleState1.targetState = false
-//                    visibleState2.targetState = false
-//                    visibleState3.targetState = false
-//                    if (back) delay(700)
-//                    visibleState4.targetState = true
-//                }
-//            }
-//        }
-
         Column(
             modifier = Modifier
         ) {
@@ -196,24 +158,33 @@ fun RecipeBottomSheet(
                 enter = fadeIn(tween(1)),
                 exit = fadeOut(tween(1500), targetAlpha = 0.99f)
             ) {
-                Heading(R.string.ingredients) {
-                    scope.launch {
-                        back = true
-                        step = Step.FULL_RECIPE
-                        visibleState4.targetState = false
-                        delay(700)
-                        visibleState3.targetState = true
-                        delay(100)
-                        step = Step.INGREDIENTS
-                        visibleState3.targetState = false
-                        delay(800)
-                        visibleState2.targetState = true
-                        delay(100)
-                        visibleState2.targetState = false
-                        step = Step.IMAGE
-                        delay(750)
-                        visibleState1.targetState = true
-                    }
+                var offset by remember { mutableStateOf(IntOffset(0, 0)) }
+                Log.d("Ashu", offset.y.toString())
+                Spacer(modifier = Modifier.height(offset.y.dp))
+                Heading(
+                    name = R.string.ingredients,
+                    onBackClick = {
+                        scope.launch {
+                            back = true
+                            step = Step.FULL_RECIPE
+                            visibleState4.targetState = false
+                            delay(700)
+                            visibleState3.targetState = true
+                            delay(100)
+                            step = Step.INGREDIENTS
+                            visibleState3.targetState = false
+                            delay(800)
+                            visibleState2.targetState = true
+                            delay(100)
+                            visibleState2.targetState = false
+                            step = Step.IMAGE
+                            delay(750)
+                            visibleState1.targetState = true
+                        }
+                    },
+                    offset = offset
+                ) {
+                    offset = it
                 }
             }
             AnimatedVisibility(
@@ -259,19 +230,27 @@ fun RecipeBottomSheet(
                 enter = fadeIn(tween(1)),
                 exit = fadeOut(tween(1500), targetAlpha = 0.99f)
             ) {
-                Heading(R.string.full_recipe) {
-                    scope.launch {
-                        back = true
-                        visibleState4.targetState = false
-                        step = Step.FULL_RECIPE
-                        delay(750)
-                        visibleState3.targetState = true
-                        delay(100)
-                        visibleState3.targetState = false
-                        step = Step.INGREDIENTS
-                        delay(800)
-                        visibleState2.targetState = true
-                    }
+                var offset by remember { mutableStateOf(IntOffset(0, 0)) }
+                Spacer(modifier = Modifier.height(offset.y.dp))
+                Heading(
+                    name = R.string.full_recipe,
+                    onBackClick = {
+                        scope.launch {
+                            back = true
+                            visibleState4.targetState = false
+                            step = Step.FULL_RECIPE
+                            delay(750)
+                            visibleState3.targetState = true
+                            delay(100)
+                            visibleState3.targetState = false
+                            step = Step.INGREDIENTS
+                            delay(800)
+                            visibleState2.targetState = true
+                        }
+                    },
+                    offset = offset
+                ) {
+                    offset = it
                 }
             }
             AnimatedVisibility(
