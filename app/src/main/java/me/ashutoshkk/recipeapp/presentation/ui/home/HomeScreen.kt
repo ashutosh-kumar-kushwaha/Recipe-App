@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -35,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import me.ashutoshkk.recipeapp.R
 import me.ashutoshkk.recipeapp.presentation.Screen
+import me.ashutoshkk.recipeapp.presentation.ui.home.components.AdContent
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.PopularRecipe
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.recipeapp.presentation.ui.home.components.RecipeCard
@@ -134,13 +136,13 @@ fun SharedTransitionScope.HomeScreen(
                     ProgressBar()
                 }
             } else {
-                items(
+                itemsIndexed(
                     items = uiState.allRecipe,
-                    key = { it.id }
-                ) {
+                    key = { index, item -> item.id }
+                ) { index, item ->
                     RecipeCard(
-                        title = it.title,
-                        imageUrl = it.image,
+                        title = item.title,
+                        imageUrl = item.image,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
@@ -148,8 +150,12 @@ fun SharedTransitionScope.HomeScreen(
                                 vertical = RecipeTheme.paddings.verticalSmall
                             )
                     ) {
-                        navController.navigate(Screen.Recipe.createRoute(it.id))
+                        navController.navigate(Screen.Recipe.createRoute(item.id))
                     }
+                    if ((index + 1) % 5 == 0) {
+                        AdContent()
+                    }
+
                 }
             }
         }
