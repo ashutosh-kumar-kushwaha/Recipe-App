@@ -101,7 +101,6 @@ fun RecipeScreen() {
                 ) {
                     items(
                         items = recipe.ingredients,
-                        key = { it.id }
                     ) {
                         Ingredient(it.name, IMAGE_URL.plus(it.image))
                     }
